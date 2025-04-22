@@ -1,0 +1,25 @@
+package adapters
+
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import fragments.EnvironmentSettingsFragment
+import fragments.TextSettingsFragment
+import fragments.SoundSettingsFragment
+
+class SettingsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
+    override fun getItemCount(): Int = 7
+
+    override fun createFragment(position: Int): Fragment {
+        return when (position) {
+            0 -> EnvironmentSettingsFragment()    // Ambiente
+            1 -> TextSettingsFragment()           // Texto
+            2 -> SoundSettingsFragment()          // Som
+//            3 -> VideoSettingsFragment()          // Vídeo
+//            4 -> InputSettingsFragment()          // Entrada
+//            5 -> NotificationsSettingsFragment()  // Notificações
+//            6 -> GestureSettingsFragment()       // Gestos
+            else -> Fragment()
+        }
+    }
+}
