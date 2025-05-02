@@ -1,10 +1,10 @@
 package utils
 
 object EnvironmentSettingsManager {
-    var customColor: Int = 0xFFFFFFFF.toInt() // branco padrão
+    var customColor: Int = 0xFFFFFFFF.toInt()
     var invertColors: Boolean = false
-    var intensityReduction: Int = 0         // 0% redução
+    var intensityReduction: Int = 0
     var autoBrightness: Boolean = true
-    var brightness: Int = 50                // 50%
-    var screenOrientation: Int = 0          // 0 para auto; usar ActivityInfo constants para outras
+    var brightness: Int = 100
+    var screenOrientation: Int = -1
 }
