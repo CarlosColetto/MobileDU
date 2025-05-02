@@ -21,17 +21,29 @@ class MainActivity : AppCompatActivity() {
         }
 
         //ao clicar no icone do DU, abre a Activity de configurações com abas
-        val icone = findViewById<View>(R.id.ic_du)
-        icone.setOnClickListener{val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
+        //val icone = findViewById<View>(R.id.ic_du)
+        //icone.setOnClickListener{val intent = Intent(this, SettingsActivity::class.java)
+        //    startActivity(intent)
         }
-    }
+    //}
     // Atualiza a aparência dos textos quando a MainActivity voltar ao foco
+    //override fun onResume() {
+    //    super.onResume()
+    //    if(TextColorManager.isConfigured) {
+    //        val rootView = findViewById<View>(android.R.id.content)
+    //        TextColorManager.updateTextAppearance(rootView)
+    //    }
+    //}
     override fun onResume() {
         super.onResume()
-        if(TextColorManager.isConfigured) {
-            val rootView = findViewById<View>(android.R.id.content)
-            TextColorManager.updateTextAppearance(rootView)
+        try {
+            com.mobile.libdu.DUSettingsApplier.applyToActivity(this)
+        } catch (e: Exception) {
+            e.printStackTrace() // ou Log.e("MainActivity", "Erro ao aplicar configurações", e)
         }
     }
+    //override fun onPostResume() {
+    //    super.onPostResume()
+    //    com.mobile.libdu.DUSettingsApplier.applyToActivity(this)
+    //}
 }

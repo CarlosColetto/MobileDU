@@ -1,4 +1,5 @@
 package fragments
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.TypedValue
@@ -14,8 +15,9 @@ import utils.TextColorManager
 
 class TextSettingsFragment : Fragment() {
 
-    private var selectedColor: Int = TextColorManager.currentTextColor
-    private var selectedTextSize: Float = TextColorManager.currentTextSize
+    private lateinit var previewText: TextView
+    private var selectedColor: Int = 0
+    private var selectedTextSize: Float = 0f
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,6 +27,10 @@ class TextSettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
+        selectedColor = prefs.getInt("textColor", Color.BLACK)
+        selectedTextSize = prefs.getFloat("textSize", 16f)
+
         val previewText = view.findViewById<TextView>(R.id.previewText)
         previewText.text = "Texto de Exemplo"
         previewText.setTextColor(selectedColor)
@@ -77,21 +83,22 @@ class TextSettingsFragment : Fragment() {
         val btnSave = view.findViewById<Button>(R.id.btnSave)
         val btnCancel = view.findViewById<Button>(R.id.btnCancel)
 
+
         btnSave.setOnClickListener {
-            // Atualiza o gerenciador apenas se houver alguma alteração
-            val configChanged = (selectedColor != TextColorManager.currentTextColor) ||
-                    (selectedTextSize != TextColorManager.currentTextSize)
-            if (configChanged) {
-                TextColorManager.currentTextColor = selectedColor
-                TextColorManager.currentTextSize = selectedTextSize
-                TextColorManager.isConfigured = true
-                // Atualiza a aparência na Activity que chamou
-                val rootView = requireActivity().findViewById<View>(android.R.id.content)
-                TextColorManager.updateTextAppearance(rootView)
+            val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
+            prefs.edit()
+                .putInt("textColor", selectedColor)
+                .putFloat("textSize", selectedTextSize)
+                .apply()
+
+            // Reaplica as configurações na tela anterior ANTES de fechar
+            val rootView = requireActivity().findViewById<android.view.ViewGroup>(android.R.id.content)
+            rootView.post {
+                com.mobile.libdu.DUSettingsApplier.applyToActivity(requireActivity())
+                requireActivity().finish()
             }
-            // Fecha a Activity de configurações para voltar à tela que chamou
-            requireActivity().finish()
         }
+
 
         btnCancel.setOnClickListener {
             // Reverte as alterações no preview para os valores atuais globais

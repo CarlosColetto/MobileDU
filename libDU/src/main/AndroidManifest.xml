@@ -3,7 +3,14 @@
 
     <application>
         <activity
-            android:name=".activities.SettingsActivity"
-            android:exported="false" />
+            android:name="com.mobile.libdu.activities.SettingsActivity"
+            android:exported="true" />
+
+        <provider
+            android:name="com.mobile.libdu.DUInitProvider"
+            android:authorities="${applicationId}.duinitprovider"
+            android:exported="false"
+            android:initOrder="100" />
+
     </application>
 </manifest>
