@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -54,53 +55,61 @@
             android:padding="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:gravity="center_horizontal">
+            android:gravity="center">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorBlack"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
-                android:backgroundTint="@android:color/black"
-                android:contentDescription="Preto" />
+                android:background="@drawable/btn_black_border"
+                android:contentDescription="Preto"
+                android:text="" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorWhite"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:background="@drawable/btn_white_border"
                 android:layout_marginStart="8dp"
-                android:contentDescription="Branco" />
+                android:contentDescription="Branco"
+                android:text="" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorRed"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
-                android:backgroundTint="@android:color/holo_red_dark"
-                android:contentDescription="Vermelho" />
+                android:background="@drawable/btn_red_border"
+                android:contentDescription="Vermelho"
+                android:text="" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorBlue"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
-                android:backgroundTint="@android:color/holo_blue_dark"
-                android:contentDescription="Azul" />
+                android:background="@drawable/btn_blue_border"
+                android:contentDescription="Azul"
+                android:text="" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorPicker"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textSize="20sp"
+                android:background="@drawable/btn_gray_border"
+                android:textColor="@android:color/black"
                 android:text="⋯"
                 android:contentDescription="Escolher outra cor" />
         </LinearLayout>
-
 
         <!-- Fonte -->
         <TextView
@@ -132,31 +141,34 @@
             android:layout_marginTop="24dp"
             android:padding="16dp" />
 
-        <!-- Ações -->
-        <LinearLayout
+        <!-- Ações com ConstraintLayout para responsividade -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="24dp"
-            android:gravity="center">
+            android:layout_marginBottom="16dp">
 
             <Button
                 android:id="@+id/btnReset"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minWidth="100dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:ellipsize="none"
+                android:text="Restaurar"
                 android:backgroundTint="@android:color/black"
                 android:textColor="@android:color/white"
-                android:text="Restaurar" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btnCancel"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3" />
 
             <Button
                 android:id="@+id/btnCancel"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minWidth="100dp"
                 android:paddingStart="16dp"
@@ -164,14 +176,17 @@
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:ellipsize="none"
-                android:layout_marginStart="16dp"
+                android:text="Cancelar"
                 android:backgroundTint="@android:color/black"
                 android:textColor="@android:color/white"
-                android:text="Cancelar" />
+                app:layout_constraintStart_toEndOf="@id/btnReset"
+                app:layout_constraintEnd_toStartOf="@id/btnSave"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3" />
 
             <Button
                 android:id="@+id/btnSave"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:minWidth="100dp"
                 android:paddingStart="16dp"
@@ -179,12 +194,15 @@
                 android:textSize="16sp"
                 android:maxLines="1"
                 android:ellipsize="none"
-                android:layout_marginStart="16dp"
+                android:text="Salvar"
                 android:backgroundTint="@android:color/black"
                 android:textColor="@android:color/white"
-                android:text="Salvar" />
-        </LinearLayout>
+                app:layout_constraintStart_toEndOf="@id/btnCancel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.3" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 </ScrollView>
