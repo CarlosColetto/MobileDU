@@ -8,12 +8,12 @@ import fragments.TextSettingsFragment
 import fragments.SoundSettingsFragment
 
 class SettingsPagerAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
-    override fun getItemCount(): Int = 7
+    override fun getItemCount(): Int = 8
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> EnvironmentSettingsFragment()    // Ambiente
-            1 -> TextSettingsFragment()           // Texto
+            0 -> TextSettingsFragment()           // Texto
+            1 -> EnvironmentSettingsFragment()    // Ambiente
             2 -> SoundSettingsFragment()          // Som
 //            3 -> VideoSettingsFragment()          // Vídeo
 //            4 -> InputSettingsFragment()          // Entrada

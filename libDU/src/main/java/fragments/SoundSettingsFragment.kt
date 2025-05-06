@@ -1,8 +1,10 @@
 package fragments
 
 import android.content.Context
+import android.content.Intent
 import android.media.AudioManager
 import android.os.Bundle
+import android.provider.Settings
 import android.speech.tts.TextToSpeech
 import android.view.LayoutInflater
 import android.view.View
@@ -32,10 +34,11 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
     private var tts: TextToSpeech? = null
 
     // Variáveis locais para armazenar as configurações temporárias
-    private var selectedMute: Boolean = SoundSettingsManager.mute
-    private var selectedVolume: Int = 0
-    private var selectedScreenReader: Boolean = SoundSettingsManager.screenReaderEnabled
-    private var selectedSpeakingSpeed: Float = SoundSettingsManager.speakingSpeed
+    private var selectedMute: Boolean = false
+    private var selectedVolume: Int = 5
+    private var selectedScreenReader: Boolean = false
+    private var selectedSpeakingSpeed: Float = 1.0f
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,8 +154,26 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
             SoundSettingsManager.volume = selectedVolume
             SoundSettingsManager.screenReaderEnabled = selectedScreenReader
             SoundSettingsManager.speakingSpeed = selectedSpeakingSpeed
-            Toast.makeText(requireContext(), "Configurações de Som salvas", Toast.LENGTH_SHORT).show()
-            requireActivity().finish()
+
+            val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
+            prefs.edit()
+                .putBoolean("soundMute", selectedMute)
+                .putInt("soundVolume", selectedVolume)
+                .putBoolean("screenReader", selectedScreenReader)
+                .putFloat("speakingSpeed", selectedSpeakingSpeed)
+                .apply()
+
+            if (selectedScreenReader) {
+                Toast.makeText(requireContext(), "Abrindo configurações de acessibilidade para ativar o TalkBack.", Toast.LENGTH_LONG).show()
+                val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+                startActivity(intent)
+            }
+            val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
+            rootView.post {
+                com.mobile.libdu.SoundApplier.applyToActivity(requireActivity())
+                requireActivity().finish()
+            }
+
         }
 
         btnCancel.setOnClickListener {

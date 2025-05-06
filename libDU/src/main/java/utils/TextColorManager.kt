@@ -1,5 +1,6 @@
 package utils
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -13,7 +14,6 @@ object TextColorManager {
     var currentTextColor: Int = Color.BLACK
     // Tamanho atual dos textos (em sp); padrão 14sp.
     var currentTextSize: Float = 14f
-
 
     // Flag para indicar se as configurações já foram alteradas
     var isConfigured: Boolean = false
@@ -33,6 +33,7 @@ object TextColorManager {
             }
         }
     }
+
     fun updateTextSize(view: View) {
         when (view) {
             is ViewGroup -> {
@@ -41,10 +42,27 @@ object TextColorManager {
                 }
             }
             is TextView -> {
-                view.setTextSize(TypedValue.COMPLEX_UNIT_SP, currentTextSize)
+                view.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat()) // <-- Aqui
             }
         }
     }
+
+
+    fun updateFontFamily(view: View) {
+        when (view) {
+            is ViewGroup -> {
+                for (i in 0 until view.childCount) {
+                    updateFontFamily(view.getChildAt(i))
+                }
+            }
+            is TextView -> {
+                view.typeface = Typeface.create(fontFamily, Typeface.NORMAL)
+            }
+        }
+    }
+
+
+
 
     /**
      * Atualiza ambos os atributos (cor e tamanho) de todos os TextViews na hierarquia da view.
@@ -52,6 +70,13 @@ object TextColorManager {
     fun updateTextAppearance(view: View) {
         updateTextColor(view)
         updateTextSize(view)
+        updateFontFamily(view)
     }
 
+
+
+    // 🔽 Adicionado para compatibilidade com TextSettingsFragment
+    var fontSize: Int = 16
+    var textColor: Int = Color.BLACK
+    var fontFamily: String = "sans-serif"
 }

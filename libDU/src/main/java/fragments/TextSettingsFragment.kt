@@ -1,23 +1,34 @@
 package fragments
+
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import androidx.core.content.ContextCompat
+import android.view.*
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.mobile.libdu.R
 import utils.TextColorManager
 
 class TextSettingsFragment : Fragment() {
 
-    private lateinit var previewText: TextView
-    private var selectedColor: Int = 0
-    private var selectedTextSize: Float = 0f
+    private lateinit var seekBarFontSize: SeekBar
+    private lateinit var tvFontSizeValue: TextView
+    private lateinit var spinnerFontType: Spinner
+    private lateinit var tvPreview: TextView
+    private lateinit var btnColorBlack: Button
+    private lateinit var btnColorWhite: Button
+    private lateinit var btnColorRed: Button
+    private lateinit var btnColorBlue: Button
+    private lateinit var btnColorPicker: Button
+    private lateinit var btnSave: Button
+    private lateinit var btnCancel: Button
+    private lateinit var btnReset: Button
+
+    private var selectedFontSize: Int = 16
+    private var selectedTextColor: Int = Color.WHITE
+    private var selectedFontType: String = "sans-serif"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,87 +38,146 @@ class TextSettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        seekBarFontSize = view.findViewById(R.id.seekBarFontSize)
+        tvFontSizeValue = view.findViewById(R.id.tvFontSizeValue)
+        spinnerFontType = view.findViewById(R.id.spinnerFontType)
+        tvPreview = view.findViewById(R.id.tvPreview)
+        btnColorBlack = view.findViewById(R.id.btnColorBlack)
+        btnColorWhite = view.findViewById(R.id.btnColorWhite)
+        btnColorRed = view.findViewById(R.id.btnColorRed)
+        btnColorBlue = view.findViewById(R.id.btnColorBlue)
+        btnColorPicker = view.findViewById(R.id.btnColorPicker)
+        btnSave = view.findViewById(R.id.btnSave)
+        btnCancel = view.findViewById(R.id.btnCancel)
+        btnReset = view.findViewById(R.id.btnReset)
+
         val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
-        selectedColor = prefs.getInt("textColor", Color.BLACK)
-        selectedTextSize = prefs.getFloat("textSize", 16f)
+        selectedFontSize = prefs.getInt("textFontSize", 16)
+        selectedTextColor = prefs.getInt("textColor", Color.WHITE)
+        selectedFontType = prefs.getString("fontType", "sans-serif") ?: "sans-serif"
 
-        val previewText = view.findViewById<TextView>(R.id.previewText)
-        previewText.text = "Texto de Exemplo"
-        previewText.setTextColor(selectedColor)
-        previewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedTextSize)
+        // Spinner com fontes visuais
+        val fontOptions = listOf("sans-serif", "serif", "monospace")
+        val adapter = object : ArrayAdapter<String>(
+            requireContext(),
+            R.layout.item_font_spinner,
+            fontOptions
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                (view as TextView).typeface = Typeface.create(fontOptions[position], Typeface.NORMAL)
+                return view
+            }
 
-        // Configuração dos botões de cor
-        val btnColorBlue = view.findViewById<Button>(R.id.btnColorBlue)
-        val btnColorRed = view.findViewById<Button>(R.id.btnColorRed)
-        val btnColorGreen = view.findViewById<Button>(R.id.btnColorGreen)
-        val btnColorBlack = view.findViewById<Button>(R.id.btnColorBlack)
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent)
+                (view as TextView).typeface = Typeface.create(fontOptions[position], Typeface.NORMAL)
+                return view
+            }
+        }
+        spinnerFontType.adapter = adapter
+        spinnerFontType.setSelection(fontOptions.indexOf(selectedFontType))
+        spinnerFontType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                selectedFontType = fontOptions[position]
+                updatePreview()
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
 
-        // Remover tint se necessário
-        btnColorBlue.backgroundTintList = null
-        btnColorRed.backgroundTintList = null
-        btnColorGreen.backgroundTintList = null
-        btnColorBlack.backgroundTintList = null
+        seekBarFontSize.progress = selectedFontSize
+        tvFontSizeValue.text = "${selectedFontSize}sp"
+        seekBarFontSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                selectedFontSize = progress.coerceAtLeast(12)
+                tvFontSizeValue.text = "${selectedFontSize}sp"
+                updatePreview()
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
-        btnColorBlue.setOnClickListener {
-            selectedColor = Color.parseColor("#00008B")
-            previewText.setTextColor(selectedColor)
+        btnColorBlack.setOnClickListener {
+            selectedTextColor = Color.BLACK
+            updatePreview()
+        }
+        btnColorWhite.setOnClickListener {
+            selectedTextColor = Color.WHITE
+            updatePreview()
         }
         btnColorRed.setOnClickListener {
-            selectedColor = ContextCompat.getColor(requireContext(), android.R.color.holo_red_light)
-            previewText.setTextColor(selectedColor)
+            selectedTextColor = Color.RED
+            updatePreview()
         }
-        btnColorGreen.setOnClickListener {
-            selectedColor = ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark)
-            previewText.setTextColor(selectedColor)
-        }
-        btnColorBlack.setOnClickListener {
-            selectedColor = Color.BLACK
-            previewText.setTextColor(selectedColor)
+        btnColorBlue.setOnClickListener {
+            selectedTextColor = Color.BLUE
+            updatePreview()
         }
 
-        // Configuração dos botões de ajuste do tamanho da fonte
-        val btnDecreaseSize = view.findViewById<Button>(R.id.btnDecreaseSize)
-        val btnIncreaseSize = view.findViewById<Button>(R.id.btnIncreaseSize)
-        val sizeStep = 2f
-
-        btnDecreaseSize.setOnClickListener {
-            selectedTextSize = (selectedTextSize - sizeStep).coerceAtLeast(8f)
-            previewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedTextSize)
+        btnColorPicker.setOnClickListener {
+            showColorPicker()
         }
-        btnIncreaseSize.setOnClickListener {
-            selectedTextSize += sizeStep
-            previewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedTextSize)
-        }
-
-        // Botões de ação: Salvar e Cancelar
-        val btnSave = view.findViewById<Button>(R.id.btnSave)
-        val btnCancel = view.findViewById<Button>(R.id.btnCancel)
-
 
         btnSave.setOnClickListener {
+            // Atualiza o singleton e SharedPreferences
             val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
             prefs.edit()
-                .putInt("textColor", selectedColor)
-                .putFloat("textSize", selectedTextSize)
+                .putInt("textFontSize", selectedFontSize)
+                .putInt("textColor", selectedTextColor)
+                .putString("fontType", selectedFontType)
                 .apply()
 
-            // Reaplica as configurações na tela anterior ANTES de fechar
-            val rootView = requireActivity().findViewById<android.view.ViewGroup>(android.R.id.content)
+            TextColorManager.fontSize = selectedFontSize
+            TextColorManager.textColor = selectedTextColor
+            TextColorManager.fontFamily = selectedFontType
+            TextColorManager.currentTextColor = selectedTextColor
+            TextColorManager.currentTextSize = selectedFontSize.toFloat()
+            TextColorManager.isConfigured = true
+
+            val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
             rootView.post {
                 com.mobile.libdu.DUSettingsApplier.applyToActivity(requireActivity())
                 requireActivity().finish()
             }
         }
 
-
         btnCancel.setOnClickListener {
-            // Reverte as alterações no preview para os valores atuais globais
-            selectedColor = TextColorManager.currentTextColor
-            selectedTextSize = TextColorManager.currentTextSize
-            previewText.setTextColor(selectedColor)
-            previewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, selectedTextSize)
-            // Fecha a Activity de configurações para voltar à tela que chamou
             requireActivity().finish()
         }
+
+        btnReset.setOnClickListener {
+            selectedFontSize = 16
+            selectedTextColor = Color.WHITE
+            selectedFontType = "sans-serif"
+            seekBarFontSize.progress = 16
+            spinnerFontType.setSelection(0)
+            updatePreview()
+        }
+
+        updatePreview()
+    }
+
+    private fun updatePreview() {
+        tvPreview.setTextColor(selectedTextColor)
+        tvPreview.textSize = selectedFontSize.toFloat()
+        tvPreview.typeface = Typeface.create(selectedFontType, Typeface.NORMAL)
+    }
+
+    private fun showColorPicker() {
+        val input = EditText(requireContext())
+        input.hint = "#RRGGBB"
+        AlertDialog.Builder(requireContext())
+            .setTitle("Digite a cor hexadecimal")
+            .setView(input)
+            .setPositiveButton("OK") { _, _ ->
+                try {
+                    selectedTextColor = Color.parseColor(input.text.toString())
+                    updatePreview()
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "Cor inválida", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 }

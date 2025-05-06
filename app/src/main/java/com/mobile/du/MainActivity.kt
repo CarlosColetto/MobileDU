@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity() {
         try {
             com.mobile.libdu.DUSettingsApplier.applyToActivity(this)
             com.mobile.libdu.EnvironmentApplier.applyToActivity(this)
+            com.mobile.libdu.SoundApplier.applyToActivity(this)
+
+
         } catch (e: Exception) {
             e.printStackTrace() // ou Log.e("MainActivity", "Erro ao aplicar configurações", e)
         }

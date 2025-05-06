@@ -22,13 +22,14 @@ class SettingsActivity : AppCompatActivity() {
         viewPager.adapter = adapter
 
         val tabIcons = arrayOf(
-            R.drawable.ambiente,    // Aba Ambiente
             R.drawable.texto,       // Aba Texto
+            R.drawable.ambiente,    // Aba Ambiente
             R.drawable.som,         // Aba Som
             R.drawable.video,       // Aba Vídeo
             R.drawable.entrada,     // Aba Entrada
             R.drawable.notificacoes, // Aba Notificações
-            R.drawable.gestos       // Aba Gestos
+            R.drawable.gestos,       // Aba Gestos
+            R.drawable.zoom          // Aba Zoom
         )
 
         // Configura o TabLayoutMediator para definir os ícones nas abas
