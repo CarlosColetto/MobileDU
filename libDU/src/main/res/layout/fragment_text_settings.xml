@@ -47,51 +47,60 @@
 
         <LinearLayout
             android:id="@+id/layoutColorButtons"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/spinner_border"
+            android:padding="12dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center_horizontal">
 
             <Button
                 android:id="@+id/btnColorBlack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
                 android:backgroundTint="@android:color/black"
                 android:contentDescription="Preto" />
 
             <Button
                 android:id="@+id/btnColorWhite"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@android:color/white"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_white_border"
                 android:layout_marginStart="8dp"
                 android:contentDescription="Branco" />
 
             <Button
                 android:id="@+id/btnColorRed"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@android:color/holo_red_dark"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
+                android:backgroundTint="@android:color/holo_red_dark"
                 android:contentDescription="Vermelho" />
 
             <Button
                 android:id="@+id/btnColorBlue"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:backgroundTint="@android:color/holo_blue_dark"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
+                android:backgroundTint="@android:color/holo_blue_dark"
                 android:contentDescription="Azul" />
 
             <Button
                 android:id="@+id/btnColorPicker"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:text="⋯"
                 android:contentDescription="Escolher outra cor" />
         </LinearLayout>
+
 
         <!-- Fonte -->
         <TextView
@@ -135,22 +144,47 @@
                 android:id="@+id/btnReset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minWidth="100dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="none"
+                android:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
                 android:text="Restaurar" />
 
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancelar"
-                android:layout_marginStart="16dp" />
+                android:minWidth="100dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="none"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                android:text="Cancelar" />
 
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Salvar"
-                android:layout_marginStart="16dp" />
+                android:minWidth="100dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textSize="16sp"
+                android:maxLines="1"
+                android:ellipsize="none"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                android:text="Salvar" />
         </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>
