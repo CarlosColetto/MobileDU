@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/btnColorYellow"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="#FFFF00"
+            android:contentDescription="Amarelo" />
+
+        <Button
+            android:id="@+id/btnColorOrange"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#FFA500"
+            android:contentDescription="Laranja" />
+
+        <Button
+            android:id="@+id/btnColorDarkGreen"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#006400"
+            android:contentDescription="Verde Escuro" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnColorGray"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="#555555"
+            android:contentDescription="Cinza Escuro" />
+
+        <Button
+            android:id="@+id/btnColorPurple"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#800080"
+            android:contentDescription="Roxo" />
+
+        <Button
+            android:id="@+id/btnColorCyan"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#00FFFF"
+            android:contentDescription="Ciano" />
+    </LinearLayout>
+</LinearLayout>

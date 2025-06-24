@@ -16,9 +16,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
     }
 }
 
 rootProject.name = "DU"
 include(":app")
-include(":libDU")
+include(":MobileDU")

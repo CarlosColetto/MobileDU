@@ -86,11 +86,11 @@ class TextSettingsFragment : Fragment() {
         }
 
         seekBarFontSize.progress = selectedFontSize
-        tvFontSizeValue.text = "${selectedFontSize}sp"
+        tvFontSizeValue.text = "${selectedFontSize}"
         seekBarFontSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 selectedFontSize = progress.coerceAtLeast(12)
-                tvFontSizeValue.text = "${selectedFontSize}sp"
+                tvFontSizeValue.text = "${selectedFontSize}"
                 updatePreview()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -117,6 +117,9 @@ class TextSettingsFragment : Fragment() {
         btnColorPicker.setOnClickListener {
             showColorPicker()
         }
+
+
+
 
         btnSave.setOnClickListener {
             // Atualiza o singleton e SharedPreferences
@@ -163,21 +166,48 @@ class TextSettingsFragment : Fragment() {
         tvPreview.typeface = Typeface.create(selectedFontType, Typeface.NORMAL)
     }
 
-    private fun showColorPicker() {
-        val input = EditText(requireContext())
-        input.hint = "#RRGGBB"
-        AlertDialog.Builder(requireContext())
-            .setTitle("Digite a cor hexadecimal")
-            .setView(input)
-            .setPositiveButton("OK") { _, _ ->
-                try {
-                    selectedTextColor = Color.parseColor(input.text.toString())
-                    updatePreview()
-                } catch (e: Exception) {
-                    Toast.makeText(requireContext(), "Cor inválida", Toast.LENGTH_SHORT).show()
-                }
-            }
-            .setNegativeButton("Cancelar", null)
-            .show()
+//    private fun showColorPicker() {
+//        val input = EditText(requireContext())
+//        input.hint = "#RRGGBB"
+//        AlertDialog.Builder(requireContext())
+//            .setTitle("Digite a cor hexadecimal")
+//            .setView(input)
+//            .setPositiveButton("OK") { _, _ ->
+//                try {
+//                    selectedTextColor = Color.parseColor(input.text.toString())
+//                    updatePreview()
+//                } catch (e: Exception) {
+//                    Toast.makeText(requireContext(), "Cor inválida", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//            .setNegativeButton("Cancelar", null)
+//            .show()
+//    }
+private fun showColorPicker() {
+    val dialogView = layoutInflater.inflate(R.layout.dialog_color_palette, null)
+
+    val colorButtons = mapOf(
+        R.id.btnColorYellow to Color.parseColor("#FFFF00"),
+        R.id.btnColorOrange to Color.parseColor("#FFA500"),
+        R.id.btnColorDarkGreen to Color.parseColor("#006400"),
+        R.id.btnColorGray to Color.parseColor("#555555"),
+        R.id.btnColorPurple to Color.parseColor("#800080"),
+        R.id.btnColorCyan to Color.parseColor("#00FFFF")
+    )
+
+    // Atribui a cor e atualiza o preview imediatamente ao clicar na cor
+    colorButtons.forEach { (buttonId, colorValue) ->
+        dialogView.findViewById<Button>(buttonId).setOnClickListener {
+            selectedTextColor = colorValue
+            updatePreview()
+        }
     }
+
+    AlertDialog.Builder(requireContext())
+        .setTitle("Escolha uma Cor")
+        .setView(dialogView)
+        .setNegativeButton("Fechar", null) // Apenas um botão de fechar, já que a seleção é imediata
+        .show()
+}
+
 }

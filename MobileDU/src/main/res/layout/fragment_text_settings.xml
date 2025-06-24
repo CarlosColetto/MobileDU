@@ -33,8 +33,9 @@
             android:id="@+id/tvFontSizeValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="16sp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            android:text="16"
+            android:textSize="16sp" />
 
         <!-- Cor do Texto -->
         <TextView
