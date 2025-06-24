@@ -10,9 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.mobile.libdu.R
+import com.mobile.mobiledu.R
 import utils.SoundSettingsManager
 import java.util.*
 
@@ -170,7 +169,7 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
             }
             val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
             rootView.post {
-                com.mobile.libdu.SoundApplier.applyToActivity(requireActivity())
+                com.mobile.mobiledu.SoundApplier.applyToActivity(requireActivity())
                 requireActivity().finish()
             }
 

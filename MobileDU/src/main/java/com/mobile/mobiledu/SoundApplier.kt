@@ -1,10 +1,9 @@
-package com.mobile.libdu
+package com.mobile.mobiledu
 
 import android.app.Activity
 import android.content.Context
 import android.media.AudioManager
 import android.speech.tts.TextToSpeech
-import android.widget.Toast
 import java.util.*
 
 object SoundApplier {

@@ -1,12 +1,6 @@
-package com.mobile.libdu
+package com.mobile.mobiledu
 import android.app.Activity
-import android.content.Context
-import android.graphics.Color
-import android.widget.TextView
 import android.view.ViewGroup
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
 
 object DUSettingsApplier {
 

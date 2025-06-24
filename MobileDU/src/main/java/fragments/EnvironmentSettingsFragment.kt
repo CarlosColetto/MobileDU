@@ -1,6 +1,5 @@
 package fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Color
@@ -10,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.mobile.libdu.R
+import com.mobile.mobiledu.R
 import utils.EnvironmentSettingsManager
 
 class EnvironmentSettingsFragment : Fragment() {
@@ -180,7 +179,7 @@ class EnvironmentSettingsFragment : Fragment() {
 
                 val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
                 rootView.post {
-                    com.mobile.libdu.EnvironmentApplier.applyToActivity(requireActivity())
+                    com.mobile.mobiledu.EnvironmentApplier.applyToActivity(requireActivity())
                     requireActivity().finish()
                 }
             } else {

@@ -1,4 +1,4 @@
-package com.mobile.libdu
+package com.mobile.mobiledu
 
 import android.app.Activity
 import android.app.Application
@@ -10,13 +10,14 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import com.mobile.libdu.activities.SettingsActivity
+import com.mobile.mobiledu.R
+import com.mobile.mobiledu.activities.SettingsActivity
 
 class DUInitializer : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
 
-        if (activity is com.mobile.libdu.activities.SettingsActivity) return
+        if (activity is com.mobile.mobiledu.activities.SettingsActivity) return
 
         val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
 

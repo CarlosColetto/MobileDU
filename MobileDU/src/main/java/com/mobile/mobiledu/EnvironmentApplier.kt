@@ -1,4 +1,4 @@
-package com.mobile.libdu
+package com.mobile.mobiledu
 
 import android.app.Activity
 import android.content.Context

@@ -1,4 +1,4 @@
-package com.mobile.libdu
+package com.mobile.mobiledu
 
 import org.junit.Test
 

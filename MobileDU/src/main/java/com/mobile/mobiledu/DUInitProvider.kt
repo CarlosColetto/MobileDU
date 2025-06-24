@@ -1,8 +1,7 @@
-package com.mobile.libdu
+package com.mobile.mobiledu
 import android.app.Application
 import android.content.ContentProvider
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
 import android.util.Log
 
@@ -13,7 +12,7 @@ class DUInitProvider : ContentProvider() {
 
         if (context is Application) {
             DUAppInitializer.init(context)
-            Log.d("DUInitProvider", "LibDU inicializada via ContentProvider.")
+            Log.d("DUInitProvider", "MobileDU inicializada via ContentProvider.")
         } else {
             // Em alguns casos pode ser um ContextThemeWrapper, então forçamos o applicationContext
             val app = context.applicationContext as? Application

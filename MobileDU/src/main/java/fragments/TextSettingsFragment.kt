@@ -8,7 +8,7 @@ import android.os.Bundle
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.mobile.libdu.R
+import com.mobile.mobiledu.R
 import utils.TextColorManager
 
 class TextSettingsFragment : Fragment() {
@@ -139,7 +139,7 @@ class TextSettingsFragment : Fragment() {
 
             val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
             rootView.post {
-                com.mobile.libdu.DUSettingsApplier.applyToActivity(requireActivity())
+                com.mobile.mobiledu.DUSettingsApplier.applyToActivity(requireActivity())
                 requireActivity().finish()
             }
         }

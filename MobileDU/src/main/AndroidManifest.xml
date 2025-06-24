@@ -3,11 +3,11 @@
 
     <application>
         <activity
-            android:name="com.mobile.libdu.activities.SettingsActivity"
+            android:name="com.mobile.mobiledu.activities.SettingsActivity"
             android:exported="true" />
 
         <provider
-            android:name="com.mobile.libdu.DUInitProvider"
+            android:name="com.mobile.mobiledu.DUInitProvider"
             android:authorities="${applicationId}.duinitprovider"
             android:exported="false"
             android:initOrder="100" />

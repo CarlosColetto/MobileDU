@@ -1,12 +1,12 @@
-package com.mobile.libdu.activities
+package com.mobile.mobiledu.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mobile.libdu.R
 import adapters.SettingsPagerAdapter
+import com.mobile.mobiledu.R
 
 class SettingsActivity : AppCompatActivity() {
 
