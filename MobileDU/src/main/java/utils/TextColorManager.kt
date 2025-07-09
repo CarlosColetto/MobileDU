@@ -1,4 +1,5 @@
 package utils
+import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.View
@@ -60,9 +61,6 @@ object TextColorManager {
             }
         }
     }
-
-
-
 
     /**
      * Atualiza ambos os atributos (cor e tamanho) de todos os TextViews na hierarquia da view.

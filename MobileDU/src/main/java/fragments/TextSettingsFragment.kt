@@ -166,23 +166,7 @@ class TextSettingsFragment : Fragment() {
         tvPreview.typeface = Typeface.create(selectedFontType, Typeface.NORMAL)
     }
 
-//    private fun showColorPicker() {
-//        val input = EditText(requireContext())
-//        input.hint = "#RRGGBB"
-//        AlertDialog.Builder(requireContext())
-//            .setTitle("Digite a cor hexadecimal")
-//            .setView(input)
-//            .setPositiveButton("OK") { _, _ ->
-//                try {
-//                    selectedTextColor = Color.parseColor(input.text.toString())
-//                    updatePreview()
-//                } catch (e: Exception) {
-//                    Toast.makeText(requireContext(), "Cor inválida", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//            .setNegativeButton("Cancelar", null)
-//            .show()
-//    }
+
 private fun showColorPicker() {
     val dialogView = layoutInflater.inflate(R.layout.dialog_color_palette, null)
 

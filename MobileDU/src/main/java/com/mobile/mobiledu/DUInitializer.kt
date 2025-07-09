@@ -22,7 +22,7 @@ class DUInitializer : Application.ActivityLifecycleCallbacks {
         val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
 
         val icon = ImageView(activity).apply {
-            setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.du))
+            setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.dutransparente))
             setOnClickListener {
                 Log.d("DUInitializer", "Ícone clicado! Abrindo SettingsActivity...")
                 val intent = Intent(activity, SettingsActivity::class.java)
