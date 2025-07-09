@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
             com.mobile.mobiledu.EnvironmentApplier.applyToActivity(this)
             com.mobile.mobiledu.SoundApplier.applyToActivity(this)
 
-
         } catch (e: Exception) {
             e.printStackTrace() // ou Log.e("MainActivity", "Erro ao aplicar configurações", e)
         }

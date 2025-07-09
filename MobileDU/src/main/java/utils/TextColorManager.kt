@@ -7,9 +7,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.util.TypedValue
 
-/**
- * Singleton que gerencia a cor atual dos textos.
- */
 object TextColorManager {
     // Define a cor padrão; pode ser modificada pelo usuário.
     var currentTextColor: Int = Color.BLACK
@@ -35,33 +32,19 @@ object TextColorManager {
         }
     }
 
-    fun updateTextSize(view: View) {
-        when (view) {
-            is ViewGroup -> {
-                for (i in 0 until view.childCount) {
-                    updateTextSize(view.getChildAt(i))
-                }
-            }
-            is TextView -> {
-                view.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat()) // <-- Aqui
-            }
-        }
+fun updateTextSize(view: View) {
+    when (view) {
+        is ViewGroup -> for (i in 0 until view.childCount) updateTextSize(view.getChildAt(i))
+        is TextView -> view.setTextSize(TypedValue.COMPLEX_UNIT_SP, currentTextSize) // CORRIGIDO
     }
+}
 
-
-    fun updateFontFamily(view: View) {
-        when (view) {
-            is ViewGroup -> {
-                for (i in 0 until view.childCount) {
-                    updateFontFamily(view.getChildAt(i))
-                }
-            }
-            is TextView -> {
-                view.typeface = Typeface.create(fontFamily, Typeface.NORMAL)
-            }
-        }
+fun updateFontFamily(view: View) {
+    when (view) {
+        is ViewGroup -> for (i in 0 until view.childCount) updateFontFamily(view.getChildAt(i))
+        is TextView -> view.typeface = Typeface.create(fontFamily, Typeface.NORMAL) // ✅ já correto se usar o mesmo nome
     }
-
+}
     /**
      * Atualiza ambos os atributos (cor e tamanho) de todos os TextViews na hierarquia da view.
      */
@@ -71,10 +54,22 @@ object TextColorManager {
         updateFontFamily(view)
     }
 
+    fun savePreferences(context: Context) {
+        val prefs = context.getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
+        prefs.edit()
+            .putInt("textColor", currentTextColor)
+            .putFloat("textSize", currentTextSize)
+            .putString("fontFamily", fontFamily)
+            .apply()
+    }
 
+    fun loadPreferences(context: Context) {
+        val prefs = context.getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
+        currentTextColor = prefs.getInt("textColor", Color.BLACK)
+        currentTextSize = prefs.getFloat("textSize", 14f)
+        fontFamily = prefs.getString("fontFamily", "sans-serif") ?: "sans-serif"
+    }
 
-    // 🔽 Adicionado para compatibilidade com TextSettingsFragment
-    var fontSize: Int = 16
-    var textColor: Int = Color.BLACK
+     //Adicionado para compatibilidade com TextSettingsFragment
     var fontFamily: String = "sans-serif"
 }

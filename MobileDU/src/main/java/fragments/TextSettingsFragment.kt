@@ -1,7 +1,7 @@
+
 package fragments
 
 import android.app.AlertDialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -51,10 +51,10 @@ class TextSettingsFragment : Fragment() {
         btnCancel = view.findViewById(R.id.btnCancel)
         btnReset = view.findViewById(R.id.btnReset)
 
-        val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
-        selectedFontSize = prefs.getInt("textFontSize", 16)
-        selectedTextColor = prefs.getInt("textColor", Color.WHITE)
-        selectedFontType = prefs.getString("fontType", "sans-serif") ?: "sans-serif"
+        TextColorManager.loadPreferences(requireContext()) // garante que os valores estejam carregados
+        selectedFontSize = TextColorManager.currentTextSize.toInt()
+        selectedTextColor = TextColorManager.currentTextColor
+        selectedFontType = TextColorManager.fontFamily
 
         // Spinner com fontes visuais
         val fontOptions = listOf("sans-serif", "serif", "monospace")
@@ -119,23 +119,13 @@ class TextSettingsFragment : Fragment() {
         }
 
 
-
-
         btnSave.setOnClickListener {
-            // Atualiza o singleton e SharedPreferences
-            val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
-            prefs.edit()
-                .putInt("textFontSize", selectedFontSize)
-                .putInt("textColor", selectedTextColor)
-                .putString("fontType", selectedFontType)
-                .apply()
-
-            TextColorManager.fontSize = selectedFontSize
-            TextColorManager.textColor = selectedTextColor
-            TextColorManager.fontFamily = selectedFontType
             TextColorManager.currentTextColor = selectedTextColor
             TextColorManager.currentTextSize = selectedFontSize.toFloat()
+            TextColorManager.fontFamily = selectedFontType
             TextColorManager.isConfigured = true
+
+            TextColorManager.savePreferences(requireContext()) //  Agora com as chaves corretas
 
             val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
             rootView.post {
@@ -195,3 +185,5 @@ private fun showColorPicker() {
 }
 
 }
+
+
