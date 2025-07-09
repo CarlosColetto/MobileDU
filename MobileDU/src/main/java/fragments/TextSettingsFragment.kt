@@ -42,6 +42,7 @@ class TextSettingsFragment : Fragment() {
         tvFontSizeValue = view.findViewById(R.id.tvFontSizeValue)
         spinnerFontType = view.findViewById(R.id.spinnerFontType)
         tvPreview = view.findViewById(R.id.tvPreview)
+        tvPreview.setBackgroundColor(utils.EnvironmentSettingsManager.customColor)
         btnColorBlack = view.findViewById(R.id.btnColorBlack)
         btnColorWhite = view.findViewById(R.id.btnColorWhite)
         btnColorRed = view.findViewById(R.id.btnColorRed)
@@ -154,6 +155,7 @@ class TextSettingsFragment : Fragment() {
         tvPreview.setTextColor(selectedTextColor)
         tvPreview.textSize = selectedFontSize.toFloat()
         tvPreview.typeface = Typeface.create(selectedFontType, Typeface.NORMAL)
+        tvPreview.setBackgroundColor(utils.EnvironmentSettingsManager.customColor)
     }
 
 
