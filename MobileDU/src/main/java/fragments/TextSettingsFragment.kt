@@ -9,6 +9,7 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.mobile.mobiledu.R
+import utils.EnvironmentSettingsManager
 import utils.TextColorManager
 
 class TextSettingsFragment : Fragment() {
@@ -159,7 +160,7 @@ class TextSettingsFragment : Fragment() {
     }
 
 
-private fun showColorPicker() {
+    private fun showColorPicker() {
     val dialogView = layoutInflater.inflate(R.layout.dialog_color_palette, null)
 
     val colorButtons = mapOf(

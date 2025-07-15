@@ -36,6 +36,8 @@ class EnvironmentSettingsFragment : Fragment() {
     private var selectedBrightness: Int = EnvironmentSettingsManager.brightness
     private var selectedOrientation: Int = EnvironmentSettingsManager.screenOrientation
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,6 +46,7 @@ class EnvironmentSettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         btnColorRed = view.findViewById(R.id.btnColorRed)
         btnColorGreen = view.findViewById(R.id.btnColorGreen)
         btnColorBlue = view.findViewById(R.id.btnColorBlue)
@@ -64,12 +67,22 @@ class EnvironmentSettingsFragment : Fragment() {
         btnColorGreen.backgroundTintList = null
         btnColorRed.backgroundTintList = null
 
-        selectedCustomColor = EnvironmentSettingsManager.customColor
-        selectedInvert = EnvironmentSettingsManager.invertColors
-        selectedIntensity = EnvironmentSettingsManager.intensityReduction
-        selectedAutoBrightness = EnvironmentSettingsManager.autoBrightness
-        selectedBrightness = EnvironmentSettingsManager.brightness
-        selectedOrientation = EnvironmentSettingsManager.screenOrientation
+        //selectedCustomColor = EnvironmentSettingsManager.customColor
+        //selectedInvert = EnvironmentSettingsManager.invertColors
+        //selectedIntensity = EnvironmentSettingsManager.intensityReduction
+        //selectedAutoBrightness = EnvironmentSettingsManager.autoBrightness
+        //selectedBrightness = EnvironmentSettingsManager.brightness
+        //selectedOrientation = EnvironmentSettingsManager.screenOrientation
+
+        // 🔧 NOVA LEITURA DOS DADOS DIRETAMENTE DO SharedPreferences
+        val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
+        selectedCustomColor = prefs.getInt("envColor", Color.WHITE)
+        selectedInvert = prefs.getBoolean("envInvert", false)
+        selectedIntensity = prefs.getInt("envIntensity", 0)
+        selectedAutoBrightness = prefs.getBoolean("envAutoBrightness", true)
+        selectedBrightness = prefs.getInt("envBrightness", 100)
+        selectedOrientation = prefs.getInt("envOrientation", -1)
+
 
         updatePreview()
 
