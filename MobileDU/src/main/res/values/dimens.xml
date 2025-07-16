@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tamanho do ícone do botão flutuante -->
+    <dimen name="fab_icon_size">56dp</dimen>
+
+    <!-- Margem do botão em relação às bordas -->
+    <dimen name="fab_margin">16dp</dimen>
+</resources>
