@@ -23,31 +23,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp">
-            <Button
+            android:background="@drawable/spinner_border"
+            android:padding="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            >
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorRed"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#F44336" />
-            <Button
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/btn_red_border"
+                android:contentDescription="Vermelho"
+                />
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorGreen"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#4CAF50" />
-            <Button
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/btn_green_border"
+                android:contentDescription="Verde"/>
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorBlue"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#2196F3" />
-            <Button
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/btn_blue_border"
+                android:contentDescription="Azul"/>
+
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnColorWhite"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:background="#FFFFFF" />
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/btn_white_border"
+                android:contentDescription="Branco"/>
         </LinearLayout>
 
         <!-- Divider -->

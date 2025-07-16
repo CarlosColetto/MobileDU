@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.mobile.mobiledu.R
-import utils.EnvironmentSettingsManager
+import config.AppConfig
 
 class EnvironmentSettingsFragment : Fragment() {
 
@@ -29,15 +29,6 @@ class EnvironmentSettingsFragment : Fragment() {
     private lateinit var btnCancel: Button
     private lateinit var viewPreview: View
 
-    private var selectedCustomColor: Int = EnvironmentSettingsManager.customColor
-    private var selectedInvert: Boolean = EnvironmentSettingsManager.invertColors
-    private var selectedIntensity: Int = EnvironmentSettingsManager.intensityReduction
-    private var selectedAutoBrightness: Boolean = EnvironmentSettingsManager.autoBrightness
-    private var selectedBrightness: Int = EnvironmentSettingsManager.brightness
-    private var selectedOrientation: Int = EnvironmentSettingsManager.screenOrientation
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,7 +37,6 @@ class EnvironmentSettingsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         btnColorRed = view.findViewById(R.id.btnColorRed)
         btnColorGreen = view.findViewById(R.id.btnColorGreen)
         btnColorBlue = view.findViewById(R.id.btnColorBlue)
@@ -62,59 +52,47 @@ class EnvironmentSettingsFragment : Fragment() {
         btnCancel = view.findViewById(R.id.btnCancel)
         viewPreview = view.findViewById(R.id.viewPreview)
 
-        btnColorBlue.backgroundTintList = null
-        btnColorWhite.backgroundTintList = null
-        btnColorGreen.backgroundTintList = null
-        btnColorRed.backgroundTintList = null
-
-        //selectedCustomColor = EnvironmentSettingsManager.customColor
-        //selectedInvert = EnvironmentSettingsManager.invertColors
-        //selectedIntensity = EnvironmentSettingsManager.intensityReduction
-        //selectedAutoBrightness = EnvironmentSettingsManager.autoBrightness
-        //selectedBrightness = EnvironmentSettingsManager.brightness
-        //selectedOrientation = EnvironmentSettingsManager.screenOrientation
-
-        // 🔧 NOVA LEITURA DOS DADOS DIRETAMENTE DO SharedPreferences
-        val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
-        selectedCustomColor = prefs.getInt("envColor", Color.WHITE)
-        selectedInvert = prefs.getBoolean("envInvert", false)
-        selectedIntensity = prefs.getInt("envIntensity", 0)
-        selectedAutoBrightness = prefs.getBoolean("envAutoBrightness", true)
-        selectedBrightness = prefs.getInt("envBrightness", 100)
-        selectedOrientation = prefs.getInt("envOrientation", -1)
-
-
+        AppConfig.save(requireContext())
         updatePreview()
 
         btnColorRed.setOnClickListener {
-            selectedCustomColor = Color.parseColor("#F44336")
+            AppConfig.color = Color.parseColor("#F44336")
+            AppConfig.save(requireContext())
             updatePreview()
         }
+
         btnColorGreen.setOnClickListener {
-            selectedCustomColor = Color.parseColor("#4CAF50")
+            AppConfig.color = Color.parseColor("#4CAF50")
+            AppConfig.save(requireContext())
             updatePreview()
         }
+
         btnColorBlue.setOnClickListener {
-            selectedCustomColor = Color.parseColor("#2196F3")
+            AppConfig.color = Color.parseColor("#2196F3")
+            AppConfig.save(requireContext())
             updatePreview()
         }
+
         btnColorWhite.setOnClickListener {
-            selectedCustomColor = Color.parseColor("#FFFFFF")
+            AppConfig.color = Color.parseColor("#FFFFFF")
+            AppConfig.save(requireContext())
             updatePreview()
         }
 
-        switchInvertColors.isChecked = selectedInvert
+        switchInvertColors.isChecked = AppConfig.invertColors
         switchInvertColors.setOnCheckedChangeListener { _, isChecked ->
-            selectedInvert = isChecked
+            AppConfig.invertColors = isChecked
+            AppConfig.save(requireContext())
             updatePreview()
         }
 
-        seekBarIntensity.progress = selectedIntensity
-        tvIntensityValue.text = "$selectedIntensity%"
+        seekBarIntensity.progress = AppConfig.intensity
+        tvIntensityValue.text = "${AppConfig.intensity}%"
         seekBarIntensity.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                selectedIntensity = progress
+                AppConfig.intensity = progress
                 tvIntensityValue.text = "$progress%"
+                AppConfig.save(requireContext())
                 updatePreview()
             }
 
@@ -122,18 +100,21 @@ class EnvironmentSettingsFragment : Fragment() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        switchAutoBrightness.isChecked = selectedAutoBrightness
+        switchAutoBrightness.isChecked = AppConfig.autoBrightness
         switchAutoBrightness.setOnCheckedChangeListener { _, isChecked ->
-            selectedAutoBrightness = isChecked
+            AppConfig.autoBrightness = isChecked
             seekBarBrightness.isEnabled = !isChecked
+            AppConfig.save(requireContext())
+            updatePreview()
         }
 
-        seekBarBrightness.progress = selectedBrightness
-        tvBrightnessValue.text = "$selectedBrightness%"
+        seekBarBrightness.progress = AppConfig.brightness
+        tvBrightnessValue.text = "${AppConfig.brightness}%"
         seekBarBrightness.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                selectedBrightness = progress
+                AppConfig.brightness = progress
                 tvBrightnessValue.text = "$progress%"
+                AppConfig.save(requireContext())
                 updatePreview()
             }
 
@@ -145,57 +126,29 @@ class EnvironmentSettingsFragment : Fragment() {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, options)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerOrientation.adapter = adapter
-        spinnerOrientation.setSelection(when (selectedOrientation) {
+        spinnerOrientation.setSelection(when (AppConfig.orientation) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> 1
             ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> 2
             else -> 0
         })
         spinnerOrientation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>, view: View, position: Int, id: Long
-            ) {
-                selectedOrientation = when (position) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                AppConfig.orientation = when (position) {
                     1 -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                     2 -> ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                     else -> ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 }
+                AppConfig.save(requireContext())
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
         btnSave.setOnClickListener {
-            val configChanged = (selectedCustomColor != EnvironmentSettingsManager.customColor) ||
-                    (selectedInvert != EnvironmentSettingsManager.invertColors) ||
-                    (selectedIntensity != EnvironmentSettingsManager.intensityReduction) ||
-                    (selectedAutoBrightness != EnvironmentSettingsManager.autoBrightness) ||
-                    (selectedBrightness != EnvironmentSettingsManager.brightness) ||
-                    (selectedOrientation != EnvironmentSettingsManager.screenOrientation)
-
-            if (configChanged) {
-                EnvironmentSettingsManager.customColor = selectedCustomColor
-                EnvironmentSettingsManager.invertColors = selectedInvert
-                EnvironmentSettingsManager.intensityReduction = selectedIntensity
-                EnvironmentSettingsManager.autoBrightness = selectedAutoBrightness
-                EnvironmentSettingsManager.brightness = selectedBrightness
-                EnvironmentSettingsManager.screenOrientation = selectedOrientation
-
-                val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
-                prefs.edit()
-                    .putInt("envColor", selectedCustomColor)
-                    .putBoolean("envInvert", selectedInvert)
-                    .putInt("envIntensity", selectedIntensity)
-                    .putBoolean("envAutoBrightness", selectedAutoBrightness)
-                    .putInt("envBrightness", selectedBrightness)
-                    .putInt("envOrientation", selectedOrientation)
-                    .apply()
-
-                val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
-                rootView.post {
-                    com.mobile.mobiledu.EnvironmentApplier.applyToActivity(requireActivity())
-                    requireActivity().finish()
-                }
-            } else {
+            AppConfig.save(requireContext())
+            val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
+            rootView.post {
+                com.mobile.mobiledu.EnvironmentApplier.applyToActivity(requireActivity())
                 requireActivity().finish()
             }
         }
@@ -206,30 +159,23 @@ class EnvironmentSettingsFragment : Fragment() {
     }
 
     private fun updatePreview() {
-        var color = selectedCustomColor
-        if (selectedInvert) {
+        var color = AppConfig.color
+        if (AppConfig.invertColors) {
             val red = 255 - Color.red(color)
             val green = 255 - Color.green(color)
             val blue = 255 - Color.blue(color)
             color = Color.rgb(red, green, blue)
         }
 
-        val alpha = (255 * (100 - selectedIntensity) / 100).coerceIn(0, 255)
+        val alpha = (255 * (100 - AppConfig.intensity) / 100).coerceIn(0, 255)
         val colorWithAlpha = (alpha shl 24) or (color and 0x00FFFFFF)
 
-        val brightnessFactor = selectedBrightness / 100f
+        val brightnessFactor = AppConfig.brightness / 100f
         val r = (Color.red(colorWithAlpha) * brightnessFactor).toInt().coerceAtMost(255)
         val g = (Color.green(colorWithAlpha) * brightnessFactor).toInt().coerceAtMost(255)
         val b = (Color.blue(colorWithAlpha) * brightnessFactor).toInt().coerceAtMost(255)
 
         val finalColor = Color.argb(alpha, r, g, b)
         viewPreview.setBackgroundColor(finalColor)
-    }
-
-    private fun invertColor(color: Int): Int {
-        val red = 255 - Color.red(color)
-        val green = 255 - Color.green(color)
-        val blue = 255 - Color.blue(color)
-        return Color.rgb(red, green, blue)
     }
 }

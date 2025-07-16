@@ -1,4 +1,3 @@
-
 package fragments
 
 import android.app.AlertDialog
@@ -9,8 +8,7 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.mobile.mobiledu.R
-import utils.EnvironmentSettingsManager
-import utils.TextColorManager
+import config.AppConfig
 
 class TextSettingsFragment : Fragment() {
 
@@ -27,10 +25,6 @@ class TextSettingsFragment : Fragment() {
     private lateinit var btnCancel: Button
     private lateinit var btnReset: Button
 
-    private var selectedFontSize: Int = 16
-    private var selectedTextColor: Int = Color.WHITE
-    private var selectedFontType: String = "sans-serif"
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,7 +37,8 @@ class TextSettingsFragment : Fragment() {
         tvFontSizeValue = view.findViewById(R.id.tvFontSizeValue)
         spinnerFontType = view.findViewById(R.id.spinnerFontType)
         tvPreview = view.findViewById(R.id.tvPreview)
-        tvPreview.setBackgroundColor(utils.EnvironmentSettingsManager.customColor)
+        tvPreview.setBackgroundColor(AppConfig.color)
+
         btnColorBlack = view.findViewById(R.id.btnColorBlack)
         btnColorWhite = view.findViewById(R.id.btnColorWhite)
         btnColorRed = view.findViewById(R.id.btnColorRed)
@@ -53,12 +48,8 @@ class TextSettingsFragment : Fragment() {
         btnCancel = view.findViewById(R.id.btnCancel)
         btnReset = view.findViewById(R.id.btnReset)
 
-        TextColorManager.loadPreferences(requireContext()) // garante que os valores estejam carregados
-        selectedFontSize = TextColorManager.currentTextSize.toInt()
-        selectedTextColor = TextColorManager.currentTextColor
-        selectedFontType = TextColorManager.fontFamily
+        AppConfig.load(requireContext())
 
-        // Spinner com fontes visuais
         val fontOptions = listOf("sans-serif", "serif", "monospace")
         val adapter = object : ArrayAdapter<String>(
             requireContext(),
@@ -78,21 +69,23 @@ class TextSettingsFragment : Fragment() {
             }
         }
         spinnerFontType.adapter = adapter
-        spinnerFontType.setSelection(fontOptions.indexOf(selectedFontType))
+        spinnerFontType.setSelection(fontOptions.indexOf(AppConfig.textFontName))
         spinnerFontType.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                selectedFontType = fontOptions[position]
+                AppConfig.textFontName = fontOptions[position]
+                AppConfig.save(requireContext())
                 updatePreview()
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
-        seekBarFontSize.progress = selectedFontSize
-        tvFontSizeValue.text = "${selectedFontSize}"
+        seekBarFontSize.progress = AppConfig.textSize.toInt()
+        tvFontSizeValue.text = "${AppConfig.textSize.toInt()}"
         seekBarFontSize.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                selectedFontSize = progress.coerceAtLeast(12)
-                tvFontSizeValue.text = "${selectedFontSize}"
+                AppConfig.textSize = progress.toFloat().coerceAtLeast(12f)
+                tvFontSizeValue.text = "${AppConfig.textSize.toInt()}"
+                AppConfig.save(requireContext())
                 updatePreview()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -100,19 +93,23 @@ class TextSettingsFragment : Fragment() {
         })
 
         btnColorBlack.setOnClickListener {
-            selectedTextColor = Color.BLACK
+            AppConfig.textColor = Color.BLACK
+            AppConfig.save(requireContext())
             updatePreview()
         }
         btnColorWhite.setOnClickListener {
-            selectedTextColor = Color.WHITE
+            AppConfig.textColor = Color.WHITE
+            AppConfig.save(requireContext())
             updatePreview()
         }
         btnColorRed.setOnClickListener {
-            selectedTextColor = Color.RED
+            AppConfig.textColor = Color.RED
+            AppConfig.save(requireContext())
             updatePreview()
         }
         btnColorBlue.setOnClickListener {
-            selectedTextColor = Color.BLUE
+            AppConfig.textColor = Color.BLUE
+            AppConfig.save(requireContext())
             updatePreview()
         }
 
@@ -120,15 +117,7 @@ class TextSettingsFragment : Fragment() {
             showColorPicker()
         }
 
-
         btnSave.setOnClickListener {
-            TextColorManager.currentTextColor = selectedTextColor
-            TextColorManager.currentTextSize = selectedFontSize.toFloat()
-            TextColorManager.fontFamily = selectedFontType
-            TextColorManager.isConfigured = true
-
-            TextColorManager.savePreferences(requireContext()) //  Agora com as chaves corretas
-
             val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
             rootView.post {
                 com.mobile.mobiledu.DUSettingsApplier.applyToActivity(requireActivity())
@@ -141,52 +130,50 @@ class TextSettingsFragment : Fragment() {
         }
 
         btnReset.setOnClickListener {
-            selectedFontSize = 16
-            selectedTextColor = Color.WHITE
-            selectedFontType = "sans-serif"
+            AppConfig.textSize = 16f
+            AppConfig.textColor = Color.WHITE
+            AppConfig.textFontName = "sans-serif"
             seekBarFontSize.progress = 16
             spinnerFontType.setSelection(0)
+            AppConfig.save(requireContext())
             updatePreview()
         }
 
+        AppConfig.save(requireContext())
         updatePreview()
     }
 
     private fun updatePreview() {
-        tvPreview.setTextColor(selectedTextColor)
-        tvPreview.textSize = selectedFontSize.toFloat()
-        tvPreview.typeface = Typeface.create(selectedFontType, Typeface.NORMAL)
-        tvPreview.setBackgroundColor(utils.EnvironmentSettingsManager.customColor)
+        tvPreview.setTextColor(AppConfig.textColor)
+        tvPreview.textSize = AppConfig.textSize.toFloat()
+        tvPreview.typeface = Typeface.create(AppConfig.textFontName, Typeface.NORMAL)
+        tvPreview.setBackgroundColor(AppConfig.color)
     }
-
 
     private fun showColorPicker() {
-    val dialogView = layoutInflater.inflate(R.layout.dialog_color_palette, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_color_palette, null)
 
-    val colorButtons = mapOf(
-        R.id.btnColorYellow to Color.parseColor("#FFFF00"),
-        R.id.btnColorOrange to Color.parseColor("#FFA500"),
-        R.id.btnColorDarkGreen to Color.parseColor("#006400"),
-        R.id.btnColorGray to Color.parseColor("#555555"),
-        R.id.btnColorPurple to Color.parseColor("#800080"),
-        R.id.btnColorCyan to Color.parseColor("#00FFFF")
-    )
+        val colorButtons = mapOf(
+            R.id.btnColorYellow to Color.parseColor("#FFFF00"),
+            R.id.btnColorOrange to Color.parseColor("#FFA500"),
+            R.id.btnColorDarkGreen to Color.parseColor("#006400"),
+            R.id.btnColorGray to Color.parseColor("#555555"),
+            R.id.btnColorPurple to Color.parseColor("#800080"),
+            R.id.btnColorCyan to Color.parseColor("#00FFFF")
+        )
 
-    // Atribui a cor e atualiza o preview imediatamente ao clicar na cor
-    colorButtons.forEach { (buttonId, colorValue) ->
-        dialogView.findViewById<Button>(buttonId).setOnClickListener {
-            selectedTextColor = colorValue
-            updatePreview()
+        colorButtons.forEach { (buttonId, colorValue) ->
+            dialogView.findViewById<Button>(buttonId).setOnClickListener {
+                AppConfig.textColor = colorValue
+                AppConfig.save(requireContext())
+                updatePreview()
+            }
         }
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Escolha uma Cor")
+            .setView(dialogView)
+            .setNegativeButton("Fechar", null)
+            .show()
     }
-
-    AlertDialog.Builder(requireContext())
-        .setTitle("Escolha uma Cor")
-        .setView(dialogView)
-        .setNegativeButton("Fechar", null) // Apenas um botão de fechar, já que a seleção é imediata
-        .show()
 }
-
-}
-
-

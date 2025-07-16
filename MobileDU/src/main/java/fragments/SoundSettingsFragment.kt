@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.mobile.mobiledu.R
-import utils.SoundSettingsManager
+import config.AppConfig
 import java.util.*
 
 class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
@@ -31,21 +31,13 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
 
     private lateinit var audioManager: AudioManager
     private var tts: TextToSpeech? = null
-
-    // Variáveis locais para armazenar as configurações temporárias
-    private var selectedMute: Boolean = false
-    private var selectedVolume: Int = 5
-    private var selectedScreenReader: Boolean = false
-    private var selectedSpeakingSpeed: Float = 1.0f
-
+    private var selectedSpeakingSpeed: Float = AppConfig.speechRate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Inicializa o TTS
         tts = TextToSpeech(requireContext(), this)
         audioManager = requireContext().getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        // Obter o volume atual para STREAM_MUSIC
-        selectedVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+        AppConfig.volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
     }
 
     override fun onInit(status: Int) {
@@ -54,7 +46,7 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
             if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
                 Toast.makeText(requireContext(), "Língua não suportada para TTS", Toast.LENGTH_SHORT).show()
             }
-            tts?.setSpeechRate(selectedSpeakingSpeed)
+            tts?.setSpeechRate(AppConfig.speechRate)
         }
     }
 
@@ -72,7 +64,6 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Referências dos componentes da interface
         switchMute = view.findViewById(R.id.switchMute)
         btnStop = view.findViewById(R.id.btnStop)
         btnPause = view.findViewById(R.id.btnPause)
@@ -85,27 +76,22 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
         btnSave = view.findViewById(R.id.btnSave)
         btnCancel = view.findViewById(R.id.btnCancel)
 
-        // Inicializa os controles com os valores atuais
-        switchMute.isChecked = selectedMute
-        switchScreenReader.isChecked = selectedScreenReader
-        updateVolumeText() // Exibe o volume inicial
+        switchMute.isChecked = false
+        switchScreenReader.isChecked = AppConfig.isVoiceEnabled
+        updateVolumeText()
 
-        // Configura o SeekBar para velocidade: mapeando de 0.5x a 2.0x (0 a 150)
         seekBarSpeed.max = 150
         seekBarSpeed.progress = ((selectedSpeakingSpeed - 0.5f) * 100).toInt()
-        String.format("%.1fx", selectedSpeakingSpeed).also { tvSpeedValue.text = it }
+        tvSpeedValue.text = String.format("%.1fx", selectedSpeakingSpeed)
 
-        // Listener para o Switch de silenciar efeitos
         switchMute.setOnCheckedChangeListener { _, isChecked ->
-            selectedMute = isChecked
-            if (selectedMute) {
+            if (isChecked) {
                 audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_MUTE, 0)
             } else {
                 audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_UNMUTE, 0)
             }
         }
 
-        // Botões de controle de áudio
         btnStop.setOnClickListener {
             Toast.makeText(requireContext(), "Áudio parado", Toast.LENGTH_SHORT).show()
         }
@@ -116,63 +102,51 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
 
         btnVolumeDown.setOnClickListener {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, 0)
-            selectedVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+            AppConfig.volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
             updateVolumeText()
         }
 
         btnVolumeUp.setOnClickListener {
             audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, 0)
-            selectedVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+            AppConfig.volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
             updateVolumeText()
         }
 
-        // Listener para o Switch do leitor de tela
         switchScreenReader.setOnCheckedChangeListener { _, isChecked ->
-            selectedScreenReader = isChecked
-            if (selectedScreenReader) {
+            AppConfig.isVoiceEnabled = isChecked
+            if (isChecked) {
                 Toast.makeText(requireContext(), "Leitor de tela ativado", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireContext(), "Leitor de tela desativado", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Listener para o SeekBar de velocidade de fala
         seekBarSpeed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 selectedSpeakingSpeed = 0.5f + progress / 100f
-                String.format("%.1fx", selectedSpeakingSpeed).also { tvSpeedValue.text = it }
-                tts?.setSpeechRate(selectedSpeakingSpeed)
+                AppConfig.speechRate = selectedSpeakingSpeed
+                tvSpeedValue.text = String.format("%.1fx", selectedSpeakingSpeed)
+                tts?.setSpeechRate(AppConfig.speechRate)
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        // Botões de ação: Salvar e Cancelar
         btnSave.setOnClickListener {
-            SoundSettingsManager.mute = selectedMute
-            SoundSettingsManager.volume = selectedVolume
-            SoundSettingsManager.screenReaderEnabled = selectedScreenReader
-            SoundSettingsManager.speakingSpeed = selectedSpeakingSpeed
+            AppConfig.save(requireContext())
 
-            val prefs = requireContext().getSharedPreferences("du_prefs", Context.MODE_PRIVATE)
-            prefs.edit()
-                .putBoolean("soundMute", selectedMute)
-                .putInt("soundVolume", selectedVolume)
-                .putBoolean("screenReader", selectedScreenReader)
-                .putFloat("speakingSpeed", selectedSpeakingSpeed)
-                .apply()
-
-            if (selectedScreenReader) {
+            if (AppConfig.isVoiceEnabled) {
                 Toast.makeText(requireContext(), "Abrindo configurações de acessibilidade para ativar o TalkBack.", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
                 startActivity(intent)
             }
+
             val rootView = requireActivity().findViewById<ViewGroup>(android.R.id.content)
             rootView.post {
                 com.mobile.mobiledu.SoundApplier.applyToActivity(requireActivity())
                 requireActivity().finish()
             }
-
         }
 
         btnCancel.setOnClickListener {
@@ -182,6 +156,6 @@ class SoundSettingsFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     private fun updateVolumeText() {
-        tvCurrentVolume.text = "Volume: $selectedVolume"
+        tvCurrentVolume.text = "Volume: ${AppConfig.volume}"
     }
 }
