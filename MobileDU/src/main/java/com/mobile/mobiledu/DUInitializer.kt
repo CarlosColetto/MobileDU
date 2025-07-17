@@ -32,98 +32,10 @@ class DUInitializer : Application.ActivityLifecycleCallbacks {
     private var shakeDetector: ShakeDetector? = null
     private var lastVolumeUpTime = 0L
 
-    // override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-
- /*       if (activity is com.mobile.mobiledu.activities.SettingsActivity) return
-
-        val rootView = activity.findViewById<ViewGroup>(android.R.id.content)
-
-        val icon = ImageView(activity).apply {
-            setImageDrawable(ContextCompat.getDrawable(activity, R.drawable.dutransparente))
-            setOnClickListener {
-                Log.d("DUInitializer", "Ícone clicado! Abrindo SettingsActivity...")
-                val intent = Intent(activity, SettingsActivity::class.java)
-                activity.startActivity(intent)
-            }
-
-            val size = (48 * resources.displayMetrics.density).toInt()
-            layoutParams = FrameLayout.LayoutParams(size, size, Gravity.END or Gravity.TOP).apply {
-                topMargin = 32
-                marginEnd = 32
-            }
-
-            isClickable = true
-            isFocusable = true
-        }
-
-        Log.d("DUInitializer", "Adicionando ícone à tela da activity: ${activity.localClassName}")
-        rootView.post {
-            rootView.addView(icon)
-        }
-    }
-
-    override fun onActivityStarted(activity: Activity) {}
-    override fun onActivityResumed(activity: Activity) {}
-    override fun onActivityPaused(activity: Activity) {}
-    override fun onActivityStopped(activity: Activity) {}
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-    override fun onActivityDestroyed(activity: Activity) {}
-}
-*/
-// override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-//     val icon = ImageView(activity).apply {
-//         setImageResource(R.drawable.dutransparente)
-//         setOnClickListener {
-//             val intent = Intent(activity, SettingsActivity::class.java)
-//             activity.startActivity(intent)
-//         }
-//     }
-//
-//     val rootView = activity.findViewById<FrameLayout>(android.R.id.content)
-//     rootView.post {
-//         val size = activity.resources.getDimensionPixelSize(R.dimen.fab_icon_size)
-//         val margin = activity.resources.getDimensionPixelSize(R.dimen.fab_margin)
-//
-//         val params = FrameLayout.LayoutParams(size, size)
-//         params.marginEnd = margin
-//         params.topMargin = margin
-//         params.gravity = android.view.Gravity.TOP or android.view.Gravity.END
-//         icon.layoutParams = params
-//         rootView.addView(icon)
-//     }
-// }
-//
-//        override fun onActivityResumed(activity: Activity) {
-//            sensorManager = activity.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-//            val accelerometer = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-//
-//            //shakeDetector = ShakeDetector {
-//            //    val intent = Intent(activity, SettingsActivity::class.java)
-//            //    activity.startActivity(intent)
-//            //}
-//            shakeDetector = ShakeDetector {
-//                if (activity !is SettingsActivity) {
-//                    val intent = Intent(activity, SettingsActivity::class.java)
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-//                    activity.startActivity(intent)
-//                }
-//            }
-//
-//            accelerometer?.let {
-//                sensorManager?.registerListener(shakeDetector, it, SensorManager.SENSOR_DELAY_UI)
-//            }
-//        }
-//
-//        override fun onActivityPaused(activity: Activity) {
-//            sensorManager?.unregisterListener(shakeDetector)
-//        }
-//
-//        override fun onActivityStarted(activity: Activity) {}
-//        override fun onActivityStopped(activity: Activity) {}
-//        override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-//        override fun onActivityDestroyed(activity: Activity) {}
-//    }
  override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+     if (activity is com.mobile.mobiledu.activities.SettingsActivity) {
+         return
+     }
      // Ícone flutuante
      val icon = ImageView(activity).apply {
          setImageResource(R.drawable.dutransparente)

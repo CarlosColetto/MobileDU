@@ -139,6 +139,7 @@ class EnvironmentSettingsFragment : Fragment() {
                     else -> ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
                 }
                 AppConfig.save(requireContext())
+                updatePreview()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -177,5 +178,26 @@ class EnvironmentSettingsFragment : Fragment() {
 
         val finalColor = Color.argb(alpha, r, g, b)
         viewPreview.setBackgroundColor(finalColor)
+
+        //  Atualiza o tamanho visual do preview conforme a orientação
+        val params = viewPreview.layoutParams
+        when (AppConfig.orientation) {
+            ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> {
+                params.width = (resources.displayMetrics.density * 120).toInt()
+                params.height = (resources.displayMetrics.density * 180).toInt()
+            }
+            ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> {
+                params.width = (resources.displayMetrics.density * 180).toInt()
+                params.height = (resources.displayMetrics.density * 120).toInt()
+            }
+            else -> {
+                params.width = ViewGroup.LayoutParams.MATCH_PARENT
+                params.height = (resources.displayMetrics.density * 150).toInt()
+            }
+        }
+        viewPreview.layoutParams = params
+        viewPreview.requestLayout()
+        viewPreview.invalidate()
     }
+
 }
