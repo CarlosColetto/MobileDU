@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Efeitos Sonoros"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <Switch
@@ -88,7 +88,7 @@
                 android:contentDescription="Aumentar Volume" />
         </LinearLayout>
 
-        <!-- Exibição do Volume Atual -->
+        <!-- Volume Atual -->
         <TextView
             android:id="@+id/tvCurrentVolume"
             android:layout_width="wrap_content"
@@ -97,6 +97,7 @@
             android:layout_marginTop="8dp"
             android:text="Volume: 0"
             android:textSize="20sp" />
+
         <!-- Divisor -->
         <View
             android:layout_width="match_parent"
@@ -130,8 +131,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp" />
 
-
-        <!-- Velocidade de Fala do Leitor de Tela -->
+        <!-- Velocidade de Fala -->
         <TextView
             android:id="@+id/tvSpeedTitle"
             android:layout_width="wrap_content"
@@ -155,6 +155,8 @@
             android:layout_marginTop="8dp"
             android:text="1.0x"
             android:textSize="20sp" />
+
+        <!-- Divisor -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -162,7 +164,17 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp" />
 
-        <!-- Botões de Ação -->
+        <!-- Exibir LIBRAS -->
+        <Switch
+            android:id="@+id/switchEnableLibras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Exibir LIBRAS durante vídeos"
+            android:checked="false"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"/>
+
+        <!-- Botões -->
         <LinearLayout
             android:id="@+id/actionButtons"
             android:layout_width="match_parent"
@@ -170,11 +182,13 @@
             android:orientation="horizontal"
             android:gravity="end"
             android:layout_marginTop="16dp">
+
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cancelar" />
+
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"

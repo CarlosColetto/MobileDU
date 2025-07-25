@@ -150,6 +150,13 @@ class TextSettingsFragment : Fragment() {
         updatePreview()
     }
 
+    override fun onResume() {
+        super.onResume()
+        AppConfig.load(requireContext())
+        updatePreview()
+    }
+
+
     private fun updatePreview() {
         tvPreview.setTextColor(AppConfig.textColor)
         tvPreview.textSize = AppConfig.textSize.toFloat()

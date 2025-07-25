@@ -25,7 +25,11 @@ object AppConfig {
     var speechRate: Float = 1.0f
     var pitch: Float = 1.0f
     var isVoiceEnabled: Boolean = true
+    var isMuted: Boolean = false
+    var screenReaderEnabled: Boolean = false
     var volume: Int = 5
+    var librasEnabled: Boolean = false
+    var librasVideoURI: String = ""
 
     fun load(context: Context) {
         val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -47,7 +51,11 @@ object AppConfig {
         speechRate = prefs.getFloat("speechRate", 1.0f)
         pitch = prefs.getFloat("pitch", 1.0f)
         isVoiceEnabled = prefs.getBoolean("voiceEnabled", true)
-        volume = prefs.getInt("soundVolume",5)
+        isMuted = prefs.getBoolean("isMuted", false)
+        screenReaderEnabled = prefs.getBoolean("screenReaderEnabled", false)
+        volume = prefs.getInt("soundVolume", 5)
+        librasEnabled = prefs.getBoolean("librasEnabled", false)
+        librasVideoURI = prefs.getString("librasVideoURI", "") ?: ""
 
         saveDefaultsIfNeeded(context)
     }
@@ -72,10 +80,15 @@ object AppConfig {
             .putFloat("speechRate", speechRate)
             .putFloat("pitch", pitch)
             .putBoolean("voiceEnabled", isVoiceEnabled)
+            .putBoolean("isMuted", isMuted)
+            .putBoolean("screenReaderEnabled", screenReaderEnabled)
             .putInt("soundVolume", volume)
+            .putBoolean("librasEnabled", librasEnabled)
+            .putString("librasVideoURI", librasVideoURI)
 
             .apply()
     }
+
     fun saveDefaultsIfNeeded(context: Context) {
         val prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         if (!prefs.getBoolean(PREF_DEFAULTS_SAVED, false)) {
@@ -94,7 +107,11 @@ object AppConfig {
                 .putFloat("default_speechRate", speechRate)
                 .putFloat("default_pitch", pitch)
                 .putBoolean("default_voiceEnabled", isVoiceEnabled)
+                .putBoolean("default_isMuted", isMuted)
+                .putBoolean("default_screenReaderEnabled", screenReaderEnabled)
                 .putInt("default_soundVolume", volume)
+                .putBoolean("default_librasEnabled", librasEnabled)
+                .putString("default_librasVideoURI", librasVideoURI)
 
                 .putBoolean(PREF_DEFAULTS_SAVED, true)
                 .apply()
@@ -118,7 +135,11 @@ object AppConfig {
         speechRate = prefs.getFloat("default_speechRate", 1.0f)
         pitch = prefs.getFloat("default_pitch", 1.0f)
         isVoiceEnabled = prefs.getBoolean("default_voiceEnabled", true)
+        isMuted = prefs.getBoolean("default_isMuted", false)
+        screenReaderEnabled = prefs.getBoolean("default_screenReaderEnabled", false)
         volume = prefs.getInt("default_soundVolume", 5)
+        librasEnabled = prefs.getBoolean("default_librasEnabled", false)
+        librasVideoURI = prefs.getString("default_librasVideoURI", "") ?: ""
     }
 
     fun getFont(): Typeface =

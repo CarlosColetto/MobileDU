@@ -159,6 +159,12 @@ class EnvironmentSettingsFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        AppConfig.load(requireContext())
+        updatePreview()
+    }
+
     private fun updatePreview() {
         var color = AppConfig.color
         if (AppConfig.invertColors) {
