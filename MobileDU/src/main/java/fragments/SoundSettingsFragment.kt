@@ -102,6 +102,7 @@ class SoundSettingsFragment : Fragment() {
 
             AppConfig.save(requireContext())
             Toast.makeText(requireContext(), "Configurações salvas", Toast.LENGTH_SHORT).show()
+            requireActivity().finish()
         }
 
         btnCancel.setOnClickListener {

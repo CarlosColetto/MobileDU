@@ -140,6 +140,7 @@ class ContrastSettingsFragment : Fragment() {
             AppConfig.textColor = selectedFgColor
             AppConfig.save(requireContext())
             Toast.makeText(requireContext(), "Contraste salvo!", Toast.LENGTH_SHORT).show()
+            requireActivity().finish()
         }
 
         btnCancel.setOnClickListener {

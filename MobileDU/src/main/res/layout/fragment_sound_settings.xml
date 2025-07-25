@@ -12,12 +12,15 @@
 
         <!-- Controle de Efeitos Sonoros -->
         <TextView
-            android:id="@+id/tvMuteTitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/tvContrastTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Efeitos Sonoros"
-            android:textSize="24sp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Som"
+            android:textSize="34sp"
             android:textStyle="bold" />
+
 
         <Switch
             android:id="@+id/switchMute"
@@ -169,10 +172,11 @@
             android:id="@+id/switchEnableLibras"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Exibir LIBRAS durante vídeos"
+            android:layout_marginTop="16dp"
             android:checked="false"
+            android:text="Exibir LIBRAS durante vídeos"
             android:textSize="18sp"
-            android:layout_marginTop="16dp"/>
+            android:textStyle="bold" />
 
         <!-- Botões -->
         <LinearLayout
@@ -187,12 +191,18 @@
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:text="Cancelar" />
 
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:text="Salvar"
                 android:layout_marginStart="8dp" />
         </LinearLayout>

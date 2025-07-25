@@ -12,13 +12,23 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal">
 
+        <TextView
+            android:id="@+id/tvContrastTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Texto / Fonte"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
         <!-- Tamanho da Fonte -->
         <TextView
             android:id="@+id/tvFontSizeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tamanho da Fonte"
-            android:textSize="18sp"
+            android:text="Tamanho"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:layout_marginTop="16dp" />
 
@@ -42,10 +52,10 @@
             android:id="@+id/tvTextColorLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cor do Texto"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="12dp"
+            android:text="Cor"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:id="@+id/layoutColorButtons"
@@ -117,10 +127,10 @@
             android:id="@+id/tvFontTypeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo de Fonte"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="12dp"
+            android:text="Tipo"
+            android:textSize="25sp"
+            android:textStyle="bold" />
 
         <Spinner
             android:id="@+id/spinnerFontType"

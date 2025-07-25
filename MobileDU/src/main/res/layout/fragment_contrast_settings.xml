@@ -45,23 +45,23 @@
             android:layout_marginTop="16dp">
 
             <Button
-                android:id="@+id/btnSaveContrast"
+                android:id="@+id/btnCancelContrast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/black"
-                android:text="Salvar"
+                android:text="Cancelar"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/btnCancelContrast"
+                android:id="@+id/btnSaveContrast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="@android:color/black"
-                android:text="Cancelar"
+                android:text="Salvar"
                 android:textColor="@android:color/white"
                 android:textSize="16sp" />
         </LinearLayout>

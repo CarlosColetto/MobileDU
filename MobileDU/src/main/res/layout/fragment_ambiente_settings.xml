@@ -9,6 +9,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
+        <TextView
+            android:id="@+id/tvContrastTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Ambiente"
+            android:textSize="34sp"
+            android:textStyle="bold" />
 
         <!-- Seção: Personalizar a cor da tela -->
         <TextView
@@ -191,12 +200,18 @@
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:text="Cancelar" />
             <Button
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Salvar"
+                android:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
                 android:layout_marginStart="8dp" />
         </LinearLayout>
     </LinearLayout>
