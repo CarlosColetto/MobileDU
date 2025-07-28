@@ -25,7 +25,7 @@ class SettingsActivity : AppCompatActivity() {
             R.drawable.texto,       // Aba Texto
             R.drawable.ambiente,    // Aba Ambiente
             R.drawable.som,         // Aba Som
-            R.drawable.video,       // Aba Vídeo
+            R.drawable.contraste,   // Aba Contraste
             R.drawable.entrada,     // Aba Entrada
             R.drawable.notificacoes, // Aba Notificações
             R.drawable.gestos,       // Aba Gestos

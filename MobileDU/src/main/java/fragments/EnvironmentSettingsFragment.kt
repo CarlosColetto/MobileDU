@@ -1,12 +1,9 @@
 package fragments
 
-import android.content.Context
 import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.mobile.mobiledu.R
@@ -21,7 +18,6 @@ class EnvironmentSettingsFragment : Fragment() {
     private lateinit var switchInvertColors: Switch
     private lateinit var seekBarIntensity: SeekBar
     private lateinit var tvIntensityValue: TextView
-    private lateinit var switchAutoBrightness: Switch
     private lateinit var seekBarBrightness: SeekBar
     private lateinit var tvBrightnessValue: TextView
     private lateinit var spinnerOrientation: Spinner
@@ -44,7 +40,6 @@ class EnvironmentSettingsFragment : Fragment() {
         switchInvertColors = view.findViewById(R.id.switchInvertColors)
         seekBarIntensity = view.findViewById(R.id.seekBarIntensity)
         tvIntensityValue = view.findViewById(R.id.tvIntensityValue)
-        switchAutoBrightness = view.findViewById(R.id.switchAutoBrightness)
         seekBarBrightness = view.findViewById(R.id.seekBarBrightness)
         tvBrightnessValue = view.findViewById(R.id.tvBrightnessValue)
         spinnerOrientation = view.findViewById(R.id.spinnerOrientation)
@@ -99,14 +94,6 @@ class EnvironmentSettingsFragment : Fragment() {
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
-
-        switchAutoBrightness.isChecked = AppConfig.autoBrightness
-        switchAutoBrightness.setOnCheckedChangeListener { _, isChecked ->
-            AppConfig.autoBrightness = isChecked
-            seekBarBrightness.isEnabled = !isChecked
-            AppConfig.save(requireContext())
-            updatePreview()
-        }
 
         seekBarBrightness.progress = AppConfig.brightness
         tvBrightnessValue.text = "${AppConfig.brightness}%"
@@ -185,7 +172,6 @@ class EnvironmentSettingsFragment : Fragment() {
         val finalColor = Color.argb(alpha, r, g, b)
         viewPreview.setBackgroundColor(finalColor)
 
-        //  Atualiza o tamanho visual do preview conforme a orientação
         val params = viewPreview.layoutParams
         when (AppConfig.orientation) {
             ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> {
@@ -205,5 +191,4 @@ class EnvironmentSettingsFragment : Fragment() {
         viewPreview.requestLayout()
         viewPreview.invalidate()
     }
-
 }

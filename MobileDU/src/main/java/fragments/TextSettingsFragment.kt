@@ -130,17 +130,6 @@ class TextSettingsFragment : Fragment() {
         }
 
         btnReset.setOnClickListener {
-            //este é o código que estava antes de serem implementadas as alterações
-            //para quando clicar em restaurar ele restaurar as configurações originais do app
-            //testar bastante isso ainda
-
-            //AppConfig.textSize = 16f
-            //AppConfig.textColor = Color.WHITE
-            //AppConfig.textFontName = "sans-serif"
-            //seekBarFontSize.progress = 16
-            //spinnerFontType.setSelection(0)
-            //AppConfig.save(requireContext())
-            //updatePreview()
             AppConfig.restoreDefaults(requireContext())
             AppConfig.save(requireContext())
             updatePreview()

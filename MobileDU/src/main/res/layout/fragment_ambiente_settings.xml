@@ -8,15 +8,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingBottom="1dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+1
         <TextView
             android:id="@+id/tvContrastTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="Ambiente"
-            android:textSize="34sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <!-- Seção: Personalizar a cor da tela -->
@@ -25,7 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Personalizar cor da tela"
-            android:textStyle="bold" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+             />
         <!-- Para simplificar, vamos usar botões com cores pré-definidas -->
         <LinearLayout
             android:id="@+id/colorOptionsLayout"
@@ -85,17 +90,15 @@
             android:layout_marginBottom="8dp" />
 
         <!-- Seção: Inverter cores -->
-        <TextView
-            android:id="@+id/tvInvertColorsTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Inverter Cores"
-            android:textStyle="bold" />
+
+
         <Switch
             android:id="@+id/switchInvertColors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inverter cores da tela" />
+            android:text="Inverter cores da tela"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
 
         <!-- Divider -->
         <View
@@ -111,7 +114,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reduzir intensidade das cores brilhantes"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="20sp"/>
         <SeekBar
             android:id="@+id/seekBarIntensity"
             android:layout_width="match_parent"
@@ -138,13 +142,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ajuste de Brilho"
-            android:textStyle="bold" />
-        <Switch
-            android:id="@+id/switchAutoBrightness"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Brilho automático" />
-        <!-- Se o brilho não for automático, usuário pode ajustar com SeekBar -->
+            android:textStyle="bold"
+            android:textSize="20sp"  />
+
         <SeekBar
             android:id="@+id/seekBarBrightness"
             android:layout_width="match_parent"
@@ -172,7 +172,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Orientação da Tela"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="20sp"
+             />
         <Spinner
             android:id="@+id/spinnerOrientation"
             android:layout_width="match_parent"
@@ -185,7 +187,7 @@
             android:id="@+id/viewPreview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="5dp"
             android:layout_gravity="center_horizontal"
             android:background="#FFFFFF" />
         <!-- Botões de ação -->
@@ -195,7 +197,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="5dp">
             <Button
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
