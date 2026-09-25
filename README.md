@@ -255,7 +255,6 @@ Entre as possibilidades de evolução estão:
 
 Desenvolvedor da MobileDU e autor da pesquisa de doutorado na qual a biblioteca foi desenvolvida.
 
-Doutor em Ciência da Computação pela Universidade Federal do ABC (UFABC).
 
 ### Juliana Cristina Braga
 
