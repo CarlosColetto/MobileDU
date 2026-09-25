@@ -1,15 +1,37 @@
+# ============================================
+# MobileDU - Android / Kotlin
+# ============================================
+
+# Android Studio / IntelliJ IDEA
+.idea/
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+
+# Gradle - arquivos e diretórios gerados
+.gradle/
+**/.gradle/
+build/
+**/build/
+
+# Kotlin - arquivos gerados
+.kotlin/
+**/.kotlin/
+
+# Configurações locais da máquina
 local.properties
+**/local.properties
+
+# Android - arquivos gerados
+captures/
+**/captures/
+.externalNativeBuild/
+**/.externalNativeBuild/
+.cxx/
+**/.cxx/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários e logs
+*.log
+*.tmp
