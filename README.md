@@ -274,9 +274,12 @@ A MobileDU foi desenvolvida no contexto do trabalho:
 
 ## Licença
 
-Consulte o arquivo `LICENSE` deste repositório para verificar as condições de uso, modificação e distribuição da MobileDU.
+A MobileDU é disponibilizada sob a licença **MIT**.
 
----
+É permitida a utilização, modificação e distribuição da biblioteca nos
+termos estabelecidos pela licença.
+
+Consulte o arquivo [LICENSE](LICENSE) para mais informações.
 
 ## Contato e contribuições
 
